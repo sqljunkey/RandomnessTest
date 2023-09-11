@@ -44,6 +44,17 @@ public class ParseCommandLine {
 
     public void parse(String[] args) throws Exception {
 
+        populateParameters(args);
+
+
+        extractParameters();
+
+
+        checkIfCommandIsWellFormed();
+
+    }
+
+    private void populateParameters(String[] args) {
         for (int i = 0; i < args.length; i++) {
 
                     if(args[i].contains("-")){
@@ -54,8 +65,9 @@ public class ParseCommandLine {
                     }
 
         }
+    }
 
-
+    private void extractParameters() {
         for(Parameter parameter: parameters){
             if(parameter.parameter.equals("-f")){
 
@@ -72,11 +84,11 @@ public class ParseCommandLine {
 
 
         }
+    }
 
-
-
+    private void checkIfCommandIsWellFormed() throws MalformedCommandLineArgument {
         if (filename.equals("") || filename.equals("0") || permutationLength == 0 || testIterations == 0) {
-            throw new MalformedCommandLineArgument("Usage: java -jar perturbations -f file.bits -s 10 -i 100000000");
+            throw new MalformedCommandLineArgument("Usage: java -jar permutations -f file.bits -s 10 -i 100000000");
         }
     }
 
