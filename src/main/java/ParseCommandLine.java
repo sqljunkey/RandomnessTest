@@ -1,35 +1,88 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParseCommandLine {
 
     String filename = "";
-    Integer permutationLength=0;
-    Integer testIterations = 0;
+    Integer permutationLength;
+    Integer testIterations ;
 
+
+
+    public String getFilename(){return filename;}
     public int getTestIterations(){return testIterations;}
     public int permutationLength(){return permutationLength;}
 
-    public void parse(String args[]) throws Exception{
+    class Parameter{
+
+        String parameter = "";
+        List<String> values = new ArrayList<>();
+
+        Parameter(String parameter){
+            this.parameter=parameter;
+        }
+
+        void addValue(String value){
+            if(value!=null && !values.contains(value)){
+                values.add(value);
+            }
+
+        }
+
+        String getValue(){
+            if(values.isEmpty()){
+                return "0";
+            }
+            return values.get(0);
+        }
+
+
+
+    }
+
+    List<Parameter> parameters = new ArrayList<>();
+
+    public void parse(String[] args) throws Exception {
 
         for (int i = 0; i < args.length; i++) {
 
-            if (args[i].equals("-f") && i < args.length - 1) {
-                filename = args[i + 1];
-                continue;
-            }
+                    if(args[i].contains("-")){
+                        parameters.add(new Parameter(args[i]));
+                    }
+                    else if(!parameters.isEmpty()){
+                        parameters.get(parameters.size()-1).addValue(args[i]);
+                    }
 
-            if (args[i].equals("-s") && i < args.length - 1) {
-                permutationLength = Integer.getInteger(args[i + 1]);
-                continue;
-            }
+        }
 
-            if (args[i].equals("-i") && i < args.length - 1) {
-                testIterations = Integer.getInteger(args[i + 1]);
-                continue;
+
+        for(Parameter parameter: parameters){
+            if(parameter.parameter.equals("-f")){
+
+                filename=parameter.getValue();
+            }
+            if(parameter.parameter.equals("-s")){
+
+                permutationLength = Integer.parseInt(parameter.getValue());
+            }
+            if(parameter.parameter.equals("-i")){
+
+                testIterations= Integer.parseInt(parameter.getValue());
             }
 
 
         }
-        if (filename.equals("") || permutationLength == 0 || testIterations == 0) {
-            throw new Exception("Usage: java -jar perturbations -f file.bits -s 10 -i 100000000");
+
+
+
+        if (filename.equals("") || filename.equals("0") || permutationLength == 0 || testIterations == 0) {
+            throw new MalformedCommandLineArgument("Usage: java -jar perturbations -f file.bits -s 10 -i 100000000");
+        }
+    }
+
+    public class MalformedCommandLineArgument extends Exception {
+        public MalformedCommandLineArgument(String errorMessage) {
+            super(errorMessage);
         }
     }
 

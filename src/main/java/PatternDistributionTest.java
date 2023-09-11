@@ -35,15 +35,18 @@ public class PatternDistributionTest {
 
             }
 
-            if(data.contains("0")){
 
-            }else if (data.contains("1")){
+            for(int i= 0; i<data.length();i++){
 
-            }else{
-
-                throw new Exception("ERROR: File contains something other than 1 or 0.");
-
+                if(data.charAt(i)!='1' && data.charAt(i)!='0') {
+                 System.out.println(data.charAt(i)+ " at " +i );
+                    throw new Exception("ERROR: File contains something other than 1 or 0.");
+                }
             }
+
+
+
+
 
     }
 
@@ -85,7 +88,7 @@ public class PatternDistributionTest {
         for(Permutation permutation:permutations){
             System.out.println(permutation.getPermutation()
                     +" : "+
-                    fte.format(permutation.getOccurrence()/(double)iterations*100.0+"%"));
+                    fte.format(permutation.getOccurrence()/(double)iterations*100.0)+"%");
 
 
         }

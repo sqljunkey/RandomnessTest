@@ -11,7 +11,7 @@ public class Handler {
 
 
             PatternDistributionTest pd = new PatternDistributionTest( parser.permutationLength());
-            pd.loadData("file");
+            pd.loadData(parser.getFilename());
 
             pd.calculateDistribution(parser.getTestIterations());
             pd.identityPermutationTest(parser.getTestIterations());

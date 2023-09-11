@@ -1,9 +1,6 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Permutation {
 
-        String data ="";
+        String data;
         Double occurrence=0.0;
 
         Permutation(String data){

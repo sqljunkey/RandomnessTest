@@ -8,12 +8,12 @@ public class CommandsTest {
 
     ParseCommandLine parser = new ParseCommandLine();
 
-    String[] command =new String[]{"-f","big","-s","10","-i","2000000"};
+    String[] command =new String[]{"-f","big","-s","-i","2000000"};
 
 
-    Exception thrown = Assertions.assertThrows(Exception.class, () -> {
-        parser.parse(command);
-    });
+    ParseCommandLine.MalformedCommandLineArgument
+            thrown = Assertions.assertThrows(ParseCommandLine.MalformedCommandLineArgument.class,
+            () -> parser.parse(command));
 
     Assertions.assertEquals("Usage: java -jar perturbations -f file.bits -s 10 -i 100000000"
             , thrown.getMessage());
